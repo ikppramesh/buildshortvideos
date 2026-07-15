@@ -9,6 +9,9 @@ Provide a **topic** or **keyword** and BuildshortVideos will automatically gener
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)](https://github.com/ikppramesh/BuildshortVideos)
+[![Live App](https://img.shields.io/badge/🌐%20Live%20App-buildshortvideos.streamlit.app-gold)](https://buildshortvideos.streamlit.app/)
+
+**[🚀 Try it live → buildshortvideos.streamlit.app](https://buildshortvideos.streamlit.app/)**
 
 </div>
 
@@ -119,13 +122,15 @@ Open **http://127.0.0.1:8501** in your browser.
 
 All of these have a free tier — no credit card required:
 
-| Service | Purpose | Free Tier |
-|---|---|---|
-| [Groq](https://console.groq.com/keys) | LLM (script generation) | Generous free requests |
-| [Pexels](https://www.pexels.com/api/) | HD video footage | Unlimited |
-| [Pixabay](https://pixabay.com/api/docs/) | HD video footage | Unlimited |
-| [Google Gemini](https://aistudio.google.com/app/apikey) | LLM | Free tier available |
-| [DeepSeek](https://platform.deepseek.com/api_keys) | LLM | Free credits on signup |
+| Service | Purpose | Free Tier | Sign Up |
+|---|---|---|---|
+| **Groq** | LLM — script generation | Generous free requests | [console.groq.com/keys](https://console.groq.com/keys) |
+| **Pexels** | HD video footage | Unlimited | [pexels.com/api](https://www.pexels.com/api/) |
+| **Pixabay** | HD video footage | Unlimited | [pixabay.com/api/docs](https://pixabay.com/api/docs/) |
+| **Google Gemini** | LLM — alternative | Free tier available | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| **DeepSeek** | LLM — very low cost | Free credits on signup | [platform.deepseek.com](https://platform.deepseek.com/api_keys) |
+
+> **Quickest path:** Get Groq + Pexels keys (both free, 2 minutes each) — that's all you need to generate great videos.
 
 ---
 
@@ -288,22 +293,71 @@ listen_port       = 8080
 
 ---
 
+## 🌐 Live App — Try It Now
+
+> **[buildshortvideos.streamlit.app](https://buildshortvideos.streamlit.app/)** — free, no install, works on mobile
+
+Open on your phone, fill in a topic, hit **Generate Video**, then tap **Download** to save the `.mp4` directly to your device.
+
+---
+
+## 🔑 Recommended API Keys for Best Videos
+
+Get all three free — takes about 5 minutes total.
+
+| Priority | Service | Purpose | Quality Impact | Get It Free |
+|---|---|---|---|---|
+| ⭐⭐⭐ | **Groq** | AI script & keywords | High — fast Llama 3.3 70B model | [console.groq.com/keys](https://console.groq.com/keys) |
+| ⭐⭐⭐ | **Pexels** | HD video footage | High — cinematic 4K clips | [pexels.com/api](https://www.pexels.com/api/) |
+| ⭐⭐ | **Pixabay** | HD video footage | Medium — good fallback library | [pixabay.com/api/docs](https://pixabay.com/api/docs/) |
+| ⭐ | **Google Gemini** | Alternative LLM | High quality scripts | [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey) |
+
+### Minimum Setup (Free, works great)
+
+```toml
+# Add these in Streamlit Cloud → Settings → Secrets
+PEXELS_API_KEY = "your_pexels_key"   # HD footage — essential
+GROQ_API_KEY   = "your_groq_key"     # Fast free LLM — essential
+LLM_PROVIDER   = "groq"
+```
+
+### Full Setup (Best video quality)
+
+```toml
+# Secrets on Streamlit Cloud or .env locally
+PEXELS_API_KEY  = "your_pexels_key"    # Primary footage source
+PIXABAY_API_KEY = "your_pixabay_key"   # Fallback footage source
+GROQ_API_KEY    = "your_groq_key"      # Fast LLM (default)
+GEMINI_API_KEY  = "your_gemini_key"    # Alternative LLM option
+LLM_PROVIDER    = "groq"               # Change to "gemini" to switch
+```
+
+> **Tips for best results:**
+> - Use **Pexels** as primary footage — the library is larger and clips are more cinematic
+> - **Groq** (Llama 3.3 70B) writes the most natural-sounding scripts on the free tier
+> - Add **Pixabay** as a backup: if Pexels doesn't find a clip for a keyword, it falls through to Pixabay
+> - Voice is handled by **Edge TTS** — completely free, no key needed
+
+---
+
 ## 🌐 Deploy Online (Streamlit Community Cloud)
 
-Deploy BuildshortVideos for free so you can create and download videos from any device — including your mobile.
+The app is already live at **[buildshortvideos.streamlit.app](https://buildshortvideos.streamlit.app/)**.
 
-### Step 1 — Push your repo to GitHub
+To deploy your own fork:
 
-Make sure your code is pushed to `https://github.com/ikppramesh/buildshortvideos`.
+### Step 1 — Fork and push to GitHub
+
+Fork this repo at `https://github.com/ikppramesh/buildshortvideos` and push your changes.
 
 ### Step 2 — Sign up for Streamlit Community Cloud
 
-Go to **[share.streamlit.io](https://share.streamlit.io)** and sign in with your GitHub account (ikppramesh).
+Go to **[share.streamlit.io](https://share.streamlit.io)** and sign in with your GitHub account.
 
 ### Step 3 — Create a new app
 
 1. Click **"New app"**
-2. Select repository: `ikppramesh/buildshortvideos`
+2. Select your forked repository
 3. Branch: `main`
 4. Main file path: `webui/Main.py`
 5. Click **"Deploy"**
@@ -322,10 +376,7 @@ LLM_PROVIDER   = "groq"
 
 ### Step 5 — Access on mobile
 
-Once deployed, Streamlit gives you a public URL like:
-`https://ikppramesh-buildshortvideos-webui-main-xxxxxx.streamlit.app`
-
-Open that URL on your phone browser. Create a video, then tap **Download** to save the `.mp4` directly to your device.
+Open `https://your-app-name.streamlit.app` on your phone, generate a video, and tap **Download** to save it.
 
 ### Notes
 
