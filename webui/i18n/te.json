@@ -165,6 +165,13 @@
     "Hide Log": "లాగ్ దాచు",
     "Save Your Video": "మీ వీడియోను సేవ్ చేయండి",
     "Download Video": "వీడియో డౌన్‌లోడ్ చేయండి",
-    "Download All as ZIP": "ZIP లో అన్నీ డౌన్‌లోడ్ చేయండి"
+    "Download All as ZIP": "ZIP లో అన్నీ డౌన్‌లోడ్ చేయండి",
+    "Auto Delete After Download Note": "డౌన్‌లోడ్ క్లిక్ చేసిన తర్వాత వీడియో సర్వర్ నుండి శాశ్వతంగా తొలగించబడుతుంది.",
+    "Video Downloaded And Deleted": "✅ వీడియో డౌన్‌లోడ్ అయింది మరియు సర్వర్ నుండి శాశ్వతంగా తొలగించబడింది.",
+    "Clear All Videos": "అన్ని వీడియోలు తొలగించండి",
+    "Confirm Clear All": "అవును, అన్నీ తొలగించు",
+    "Clear All Videos Warning": "⚠️ ఇది అన్ని పూర్తయిన మరియు విఫలమైన వీడియోలను శాశ్వతంగా తొలగిస్తుంది.",
+    "Clear All Videos Success": "🗑️ {count} వీడియో టాస్క్‌లు తొలగించబడ్డాయి — స్టోరేజ్ క్లియర్.",
+    "Clear All Videos Skipped": "⏭️ {count} నడుస్తున్న టాస్క్‌లు దాటవేయబడ్డాయి."
   }
 }

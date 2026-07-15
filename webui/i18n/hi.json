@@ -166,6 +166,13 @@
     "Hide Log": "लॉग छुपाएं",
     "Save Your Video": "वीडियो सेव करें",
     "Download Video": "वीडियो डाउनलोड करें",
-    "Download All as ZIP": "ZIP में सब डाउनलोड करें"
+    "Download All as ZIP": "ZIP में सब डाउनलोड करें",
+    "Auto Delete After Download Note": "डाउनलोड क्लिक करने के बाद वीडियो सर्वर से स्थायी रूप से हटा दिया जाएगा।",
+    "Video Downloaded And Deleted": "✅ वीडियो डाउनलोड हो गया और सर्वर से स्थायी रूप से हटा दिया गया।",
+    "Clear All Videos": "सभी वीडियो हटाएं",
+    "Confirm Clear All": "हाँ, सब हटाएं",
+    "Clear All Videos Warning": "⚠️ इससे सभी पूर्ण और विफल वीडियो स्थायी रूप से हटा दिए जाएंगे। पुष्टि के लिए **हाँ, सब हटाएं** क्लिक करें।",
+    "Clear All Videos Success": "🗑️ {count} वीडियो टास्क हटाए गए — स्टोरेज साफ।",
+    "Clear All Videos Skipped": "⏭️ {count} चल रहे टास्क छोड़े गए।"
   }
 }

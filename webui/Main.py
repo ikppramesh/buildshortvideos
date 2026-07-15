@@ -662,6 +662,31 @@ def _delete_task(task_id, task_path, task_state=None):
         return False
 
 
+def _mark_task_for_delete(task_id: str) -> None:
+    """Set a session-state flag so the download section deletes the task on next render."""
+    st.session_state[f"_bsv_delete_after_dl_{task_id}"] = True
+
+
+def _delete_all_completed_tasks() -> tuple[int, int]:
+    """Delete every non-running task. Returns (deleted_count, skipped_count)."""
+    tasks = _collect_task_summaries()
+    deleted = skipped = 0
+    for task in tasks:
+        task_id = task.get("task_id", "")
+        task_path = task.get("task_path", "")
+        if not task_id or not task_path:
+            skipped += 1
+            continue
+        if _task_state_filter_key(task) == "processing":
+            skipped += 1
+            continue
+        if _delete_task(task_id, task_path, task.get("state")):
+            deleted += 1
+        else:
+            skipped += 1
+    return deleted, skipped
+
+
 def _count_processing_tasks(tasks):
     # 顶部任务管理入口只需要展示“生成中”任务数量。
     # 这里复用内部状态 key 判断，避免依赖多语言展示文案导致不同语言下统计不一致。
@@ -785,6 +810,41 @@ def _render_task_table(filtered_tasks, key_prefix):
 
 def _render_task_manager_panel(tasks=None):
     tasks = tasks if tasks is not None else _collect_task_summaries()
+
+    # ── Clear-all confirmation flow ──
+    if st.session_state.pop("_bsv_clear_all_confirmed", False):
+        deleted, skipped = _delete_all_completed_tasks()
+        if deleted:
+            st.success(tr("Clear All Videos Success").format(count=deleted))
+        if skipped:
+            st.info(tr("Clear All Videos Skipped").format(count=skipped))
+        st.rerun()
+
+    hdr_col, btn_col = st.columns([4, 1])
+    with btn_col:
+        if st.session_state.get("_bsv_clear_all_pending"):
+            if st.button(
+                f"⚠️ {tr('Confirm Clear All')}",
+                key="clear_all_confirm_btn",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.pop("_bsv_clear_all_pending", None)
+                st.session_state["_bsv_clear_all_confirmed"] = True
+                st.rerun()
+        else:
+            if st.button(
+                f"🗑️ {tr('Clear All Videos')}",
+                key="clear_all_tasks_btn",
+                type="secondary",
+                use_container_width=True,
+            ):
+                st.session_state["_bsv_clear_all_pending"] = True
+                st.rerun()
+
+    if st.session_state.get("_bsv_clear_all_pending"):
+        st.warning(tr("Clear All Videos Warning"))
+
     if not tasks:
         st.info(tr("No Tasks Yet"))
         return
@@ -3258,43 +3318,63 @@ def _build_zip(task_id: str, video_paths: list[str], subject: str) -> bytes:
 
 
 def _render_download_section(task_id: str, video_files: list, params) -> None:
-    """Show per-video download buttons and a ZIP bundle download after generation."""
+    """Show per-video download buttons and a ZIP bundle download after generation.
+
+    After any download button is clicked the task folder is permanently deleted
+    from server storage so disk space stays free for the next generation.
+    """
     if not video_files:
         return
 
     st.markdown("---")
     st.markdown(f"### {tr('Save Your Video')}")
 
+    # If a download was clicked on the previous render, delete the task now.
+    # The bytes were already buffered and sent to the browser before this runs.
+    if st.session_state.pop(f"_bsv_delete_after_dl_{task_id}", False):
+        task_path = os.path.join(utils.task_dir(), task_id)
+        _delete_task(task_id, task_path)
+        st.success(tr("Video Downloaded And Deleted"))
+        return
+
     subject = getattr(params, "video_subject", "") or "video"
     safe_subject = re.sub(r"[^\w\s-]", "", subject)[:40].strip().replace(" ", "_") or "video"
 
-    if len(video_files) == 1:
-        vpath = video_files[0]
+    # Read all video bytes upfront so deletion doesn't affect in-flight downloads.
+    video_bytes_list = []
+    for vpath in video_files:
         if os.path.isfile(vpath):
             with open(vpath, "rb") as f:
-                video_bytes = f.read()
-            st.download_button(
-                label=f"⬇️  {tr('Download Video')} (.mp4)",
-                data=video_bytes,
-                file_name=f"{safe_subject}.mp4",
+                video_bytes_list.append((vpath, f.read()))
+
+    if not video_bytes_list:
+        return
+
+    if len(video_bytes_list) == 1:
+        _, vbytes = video_bytes_list[0]
+        st.download_button(
+            label=f"⬇️  {tr('Download Video')} (.mp4)",
+            data=vbytes,
+            file_name=f"{safe_subject}.mp4",
+            mime="video/mp4",
+            use_container_width=True,
+            key=f"dl_video_0_{task_id}",
+            on_click=_mark_task_for_delete,
+            args=(task_id,),
+        )
+    else:
+        dl_cols = st.columns(len(video_bytes_list))
+        for i, (_, vbytes) in enumerate(video_bytes_list):
+            dl_cols[i].download_button(
+                label=f"⬇️  {tr('Download Video')} {i + 1} (.mp4)",
+                data=vbytes,
+                file_name=f"{safe_subject}_{i + 1}.mp4",
                 mime="video/mp4",
                 use_container_width=True,
-                key=f"dl_video_0_{task_id}",
+                key=f"dl_video_{i}_{task_id}",
+                on_click=_mark_task_for_delete,
+                args=(task_id,),
             )
-    else:
-        dl_cols = st.columns(len(video_files))
-        for i, vpath in enumerate(video_files):
-            if os.path.isfile(vpath):
-                with open(vpath, "rb") as f:
-                    video_bytes = f.read()
-                dl_cols[i].download_button(
-                    label=f"⬇️  {tr('Download Video')} {i + 1} (.mp4)",
-                    data=video_bytes,
-                    file_name=f"{safe_subject}_{i + 1}.mp4",
-                    mime="video/mp4",
-                    use_container_width=True,
-                    key=f"dl_video_{i}_{task_id}",
-                )
 
     zip_bytes = _build_zip(task_id, video_files, subject)
     st.download_button(
@@ -3304,7 +3384,11 @@ def _render_download_section(task_id: str, video_files: list, params) -> None:
         mime="application/zip",
         use_container_width=True,
         key=f"dl_zip_{task_id}",
+        on_click=_mark_task_for_delete,
+        args=(task_id,),
     )
+
+    st.caption(f"🗑️ {tr('Auto Delete After Download Note')}")
 
 
 def _render_generation_controls(
