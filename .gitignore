@@ -29,6 +29,7 @@ node_modules
 
 venv/
 .venv
+uv.lock
 
 # Debug and test files
 CLAUDE.md
