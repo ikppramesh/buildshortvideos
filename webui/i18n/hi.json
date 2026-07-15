@@ -163,6 +163,9 @@
     "Task Configuration Loaded": "ऐतिहासिक कॉन्फ़िगरेशन लोड हो गई। समीक्षा करें, फिर वीडियो बनाएं पर क्लिक करें।",
     "Video Encoder": "वीडियो एन्कोडर",
     "Default Video Encoder": "डिफ़ॉल्ट (अनुशंसित)",
-    "Hide Log": "लॉग छुपाएं"
+    "Hide Log": "लॉग छुपाएं",
+    "Save Your Video": "वीडियो सेव करें",
+    "Download Video": "वीडियो डाउनलोड करें",
+    "Download All as ZIP": "ZIP में सब डाउनलोड करें"
   }
 }

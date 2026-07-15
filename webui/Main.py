@@ -1,5 +1,6 @@
 import hashlib
 import html
+import io
 import json
 import mimetypes
 import os
@@ -8,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import webbrowser
+import zipfile
 from collections.abc import Mapping
 from datetime import datetime
 from pathlib import Path
@@ -3215,6 +3217,86 @@ def _render_subtitle_settings(panel, params):
                 st.toast(tr("Default Subtitle Settings Restored"))
 
 
+def _build_zip(task_id: str, video_paths: list[str], subject: str) -> bytes:
+    """Bundle final video(s) + subtitle + script into an in-memory ZIP."""
+    buf = io.BytesIO()
+    safe_subject = re.sub(r"[^\w\s-]", "", subject or "video")[:40].strip().replace(" ", "_")
+    task_d = utils.task_dir(task_id)
+
+    with zipfile.ZipFile(buf, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for idx, vpath in enumerate(video_paths, start=1):
+            if os.path.isfile(vpath):
+                suffix = f"_{idx}" if len(video_paths) > 1 else ""
+                zf.write(vpath, f"{safe_subject}{suffix}.mp4")
+
+        subtitle_path = os.path.join(task_d, "subtitle.srt")
+        if os.path.isfile(subtitle_path):
+            zf.write(subtitle_path, "subtitle.srt")
+
+        script_path = os.path.join(task_d, "script.json")
+        if os.path.isfile(script_path):
+            try:
+                with open(script_path, encoding="utf-8") as f:
+                    data = json.load(f)
+                script_text = data.get("script", "")
+                if script_text:
+                    zf.writestr("script.txt", script_text)
+            except Exception:
+                pass
+
+    return buf.getvalue()
+
+
+def _render_download_section(task_id: str, video_files: list, params) -> None:
+    """Show per-video download buttons and a ZIP bundle download after generation."""
+    if not video_files:
+        return
+
+    st.markdown("---")
+    st.markdown(f"### {tr('Save Your Video')}")
+
+    subject = getattr(params, "video_subject", "") or "video"
+    safe_subject = re.sub(r"[^\w\s-]", "", subject)[:40].strip().replace(" ", "_") or "video"
+
+    if len(video_files) == 1:
+        vpath = video_files[0]
+        if os.path.isfile(vpath):
+            with open(vpath, "rb") as f:
+                video_bytes = f.read()
+            st.download_button(
+                label=f"⬇️  {tr('Download Video')} (.mp4)",
+                data=video_bytes,
+                file_name=f"{safe_subject}.mp4",
+                mime="video/mp4",
+                use_container_width=True,
+                key=f"dl_video_0_{task_id}",
+            )
+    else:
+        dl_cols = st.columns(len(video_files))
+        for i, vpath in enumerate(video_files):
+            if os.path.isfile(vpath):
+                with open(vpath, "rb") as f:
+                    video_bytes = f.read()
+                dl_cols[i].download_button(
+                    label=f"⬇️  {tr('Download Video')} {i + 1} (.mp4)",
+                    data=video_bytes,
+                    file_name=f"{safe_subject}_{i + 1}.mp4",
+                    mime="video/mp4",
+                    use_container_width=True,
+                    key=f"dl_video_{i}_{task_id}",
+                )
+
+    zip_bytes = _build_zip(task_id, video_files, subject)
+    st.download_button(
+        label=f"📦  {tr('Download All as ZIP')} (video + subtitle + script)",
+        data=zip_bytes,
+        file_name=f"{safe_subject}_bundle.zip",
+        mime="application/zip",
+        use_container_width=True,
+        key=f"dl_zip_{task_id}",
+    )
+
+
 def _render_generation_controls(
     params, uploaded_files, uploaded_audio_file, uploaded_bgm_file, voice_mode
 ):
@@ -3457,6 +3539,7 @@ def _render_generation_controls(
                     f"video_files={video_files}, error={e}"
                 )
 
+            _render_download_section(task_id, video_files, params)
             open_task_folder(task_id)
             logger.info(tr("Video Generation Completed"))
         finally:
