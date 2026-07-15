@@ -48,7 +48,7 @@ from app.utils import utils
 
 st.set_page_config(
     page_title="BuildshortVideos",
-    page_icon="🤖",
+    page_icon="🎬",
     layout="wide",
     initial_sidebar_state="auto",
     menu_items={
@@ -218,12 +218,13 @@ def _initialize_session_state():
         if recovered is not None:
             st.session_state["cross_post_recovery_checked"] = True
 
-    saved_ui_language = config.ui.get("language", "")
+    saved_ui_language = config.ui.get("language", "en")
     browser_locale = st.context.locale
     initial_ui_language = utils.resolve_ui_language(
         saved_language=saved_ui_language,
         browser_locale=browser_locale,
         supported_languages=locales.keys(),
+        default_language="en",
     )
 
     if "ui_language" not in st.session_state:
@@ -1156,11 +1157,22 @@ def _render_top_bar():
 
 
 support_locales = [
+    "en-US",
+    "en-IN",
+    "hi-IN",
+    "te-IN",
+    "ta-IN",
+    "kn-IN",
+    "ml-IN",
+    "mr-IN",
+    "bn-IN",
+    "gu-IN",
+    "pa-IN",
+    "ur-IN",
     "zh-CN",
     "zh-HK",
     "zh-TW",
     "de-DE",
-    "en-US",
     "es-ES",
     "fr-FR",
     "ru-RU",

@@ -11,7 +11,7 @@
 /app/utils/__pycache__/
 /*/__pycache__/*
 .vscode
-/**/.streamlit
+/**/.streamlit/secrets.toml
 __pycache__
 logs/
 

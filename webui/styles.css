@@ -1,3 +1,28 @@
+/* ============================================================
+   BuildshortVideos — Gold × Dark Glassmorphism Theme
+   ============================================================ */
+
+/* ---------- Gold palette variables ---------- */
+:root {
+    --gold-100: #FFF8DC;
+    --gold-200: #F5D06C;
+    --gold-300: #D4AF37;
+    --gold-400: #B8860B;
+    --gold-500: #8B6914;
+    --gold-glow: rgba(212, 175, 55, 0.35);
+    --gold-glow-soft: rgba(212, 175, 55, 0.15);
+    --glass-bg: rgba(16, 14, 10, 0.72);
+    --glass-border: rgba(212, 175, 55, 0.22);
+    --glass-blur: blur(20px) saturate(160%);
+    --surface-1: rgba(22, 20, 14, 0.80);
+    --surface-2: rgba(30, 27, 18, 0.85);
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Hide Streamlit chrome ---------- */
 header[data-testid="stHeader"],
 div[data-testid="stToolbar"],
 div[data-testid="stDecoration"],
@@ -7,29 +32,305 @@ div[data-testid="stSkillsNudge"] {
     display: none !important;
 }
 
+/* ---------- Root body / app background ---------- */
+.stApp,
+[data-testid="stAppViewContainer"] {
+    background: #080808 !important;
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% -10%, rgba(212,175,55,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 90% 80%, rgba(180,140,30,0.07) 0%, transparent 60%) !important;
+    background-attachment: fixed !important;
+}
+
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+    background: transparent !important;
+}
+
 div[data-testid="stMainBlockContainer"] {
     padding-top: 0.5rem !important;
 }
 
+/* ---------- Glassmorphism panels / containers ---------- */
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stForm"],
+div[data-testid="stPopoverBody"] {
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow:
+        0 4px 24px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+
+/* ---------- Expanders (advanced settings) ---------- */
+div[class*="st-key-advanced_settings_"] details {
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--radius-md) !important;
+    background: var(--surface-1) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+}
+
+div[class*="st-key-advanced_settings_"] details > summary {
+    min-height: 2.25rem !important;
+    padding: 0.35rem 0.75rem !important;
+    color: var(--gold-200) !important;
+    opacity: 0.9;
+}
+
+div[class*="st-key-advanced_settings_"] details > summary:hover {
+    opacity: 1;
+    background: rgba(212, 175, 55, 0.08) !important;
+}
+
+div[class*="st-key-advanced_settings_"] details[open] > summary {
+    border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+    opacity: 1;
+    background: rgba(212, 175, 55, 0.07) !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+
+div[class*="st-key-advanced_settings_"] details > summary:focus {
+    background: rgba(212, 175, 55, 0.06) !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+div[class*="st-key-advanced_settings_"] details > summary:focus-visible p {
+    text-decoration: underline !important;
+    text-decoration-color: var(--gold-300) !important;
+    text-underline-offset: 0.18em;
+}
+
+div[class*="st-key-advanced_settings_"] details > summary p {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+div[class*="st-key-advanced_settings_"] div[data-testid="stExpanderDetails"] {
+    margin-top: 0 !important;
+    padding: 0.75rem 0.75rem 0.85rem 1rem !important;
+    border: 0 !important;
+    border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
+    background: rgba(212, 175, 55, 0.04) !important;
+}
+
+/* ---------- Primary buttons — gold gradient ---------- */
+button[kind="primary"],
+button[data-testid="baseButton-primary"] {
+    background: linear-gradient(135deg, #C9A227 0%, #F5D06C 45%, #B8860B 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.6) !important;
+    color: #0A0800 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow:
+        0 2px 12px var(--gold-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    transition: all var(--transition) !important;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.15) !important;
+}
+
+button[kind="primary"]:hover,
+button[data-testid="baseButton-primary"]:hover {
+    background: linear-gradient(135deg, #D4AF37 0%, #FFE680 45%, #C9A227 100%) !important;
+    box-shadow:
+        0 4px 20px rgba(212, 175, 55, 0.55),
+        0 0 0 1px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+button[kind="primary"]:active,
+button[data-testid="baseButton-primary"]:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 1px 8px var(--gold-glow) !important;
+}
+
+/* ---------- Secondary buttons — glass gold outline ---------- */
+button[kind="secondary"],
+button[data-testid="baseButton-secondary"] {
+    background: rgba(212, 175, 55, 0.06) !important;
+    border: 1px solid rgba(212, 175, 55, 0.35) !important;
+    color: var(--gold-200) !important;
+    border-radius: var(--radius-md) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    transition: all var(--transition) !important;
+}
+
+button[kind="secondary"]:hover,
+button[data-testid="baseButton-secondary"]:hover {
+    background: rgba(212, 175, 55, 0.14) !important;
+    border-color: rgba(212, 175, 55, 0.65) !important;
+    box-shadow: 0 0 12px var(--gold-glow-soft) !important;
+    color: var(--gold-100) !important;
+}
+
+/* ---------- Inputs & selects ---------- */
+input,
+textarea,
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea,
+[data-testid="stNumberInput"] input {
+    background: rgba(20, 18, 10, 0.75) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: var(--radius-sm) !important;
+    color: #F0EBE0 !important;
+    transition: border-color var(--transition), box-shadow var(--transition) !important;
+}
+
+input:focus,
+textarea:focus,
+[data-testid="stTextInput"] input:focus,
+[data-testid="stTextArea"] textarea:focus {
+    border-color: var(--gold-300) !important;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.22) !important;
+    outline: none !important;
+}
+
+/* Select boxes */
+[data-testid="stSelectbox"] > div > div,
+[data-testid="stMultiselect"] > div > div {
+    background: rgba(20, 18, 10, 0.75) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+/* Slider */
+[data-testid="stSlider"] [role="slider"] {
+    background: var(--gold-300) !important;
+    border: 2px solid var(--gold-200) !important;
+    box-shadow: 0 0 8px var(--gold-glow) !important;
+}
+
+[data-testid="stSlider"] [data-testid="stSliderTrack"] > div:first-child {
+    background: linear-gradient(90deg, var(--gold-500), var(--gold-300)) !important;
+}
+
+/* ---------- Brand / header ---------- */
 h1 {
     padding-top: 0 !important;
     margin-top: 0 !important;
 }
 
-/* Streamlit 默认让标签中的帮助区域占据剩余宽度，导致问号按钮贴到控件最右侧。
-   帮助提示在语义上从属于标签文字，因此取消该区域的伸展，并用固定小间距让
-   问号紧跟标签；没有 help 参数的标签不存在这个 div，不会受到影响。 */
-label[data-testid="stWidgetLabel"] > div {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    margin-left: 0.35rem !important;
+.bsv-brand {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 1.15;
 }
 
-/* 配音方式位于四列布局中的窄面板。Streamlit 的 stretch 模式默认让单个分段
-   按钮接近半行宽，三个选项会换成两行；这里仅对该控件改为三等分，并压缩
-   水平内边距，保持其它 segmented control 的原生尺寸不变。 */
+.bsv-brand > span:first-child {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    min-width: 0;
+}
+
+.bsv-brand__name {
+    min-width: 0;
+    font-size: 2.75rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #F5D06C 0%, #D4AF37 40%, #FFE680 70%, #B8860B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 12px rgba(212,175,55,0.4));
+}
+
+.bsv-brand__version {
+    flex: 0 0 auto;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold-400) !important;
+    opacity: 0.8;
+    text-decoration: none !important;
+    white-space: nowrap;
+    -webkit-text-fill-color: var(--gold-400);
+    transition: opacity var(--transition);
+}
+
+.bsv-brand__version:hover {
+    opacity: 1;
+    text-decoration: underline !important;
+    text-underline-offset: 0.18em;
+}
+
+.bsv-brand__version:focus-visible {
+    outline: 2px solid var(--gold-glow);
+    outline-offset: 2px;
+}
+
+.bsv-brand__update {
+    flex: 0 0 auto;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #F5D06C !important;
+    -webkit-text-fill-color: #F5D06C;
+    text-decoration: none !important;
+    white-space: nowrap;
+    animation: gold-pulse 2.5s ease-in-out infinite;
+}
+
+.bsv-brand__update:hover {
+    text-decoration: underline !important;
+    text-underline-offset: 0.18em;
+}
+
+.bsv-brand__update:focus-visible {
+    outline: 2px solid var(--gold-glow);
+    outline-offset: 2px;
+}
+
+.bsv-brand > [data-testid="stHeaderActionElements"] {
+    display: none !important;
+}
+
+@keyframes gold-pulse {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(212,175,55,0.4)); }
+    50%       { filter: drop-shadow(0 0 10px rgba(212,175,55,0.75)); }
+}
+
+/* ---------- Tabs ---------- */
+[data-testid="stTabs"] [role="tablist"] {
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+    gap: 0.15rem;
+}
+
+[data-testid="stTabs"] button[role="tab"] {
+    color: rgba(212, 175, 55, 0.6) !important;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+    transition: all var(--transition) !important;
+    font-weight: 500 !important;
+    border-bottom: 2px solid transparent !important;
+}
+
+[data-testid="stTabs"] button[role="tab"]:hover {
+    color: var(--gold-200) !important;
+    background: rgba(212, 175, 55, 0.07) !important;
+}
+
+[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+    color: var(--gold-300) !important;
+    border-bottom: 2px solid var(--gold-300) !important;
+    background: rgba(212, 175, 55, 0.08) !important;
+    font-weight: 700 !important;
+}
+
+/* ---------- Segmented control (voice mode) ---------- */
 div[class*="st-key-voice_mode_control"] [role="radiogroup"] {
     flex-wrap: nowrap !important;
+    background: rgba(12, 10, 5, 0.6) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 3px !important;
+    gap: 2px !important;
 }
 
 div[class*="st-key-voice_mode_control"] [role="radiogroup"] > button {
@@ -37,6 +338,17 @@ div[class*="st-key-voice_mode_control"] [role="radiogroup"] > button {
     width: auto !important;
     min-width: 0 !important;
     padding: 0.25rem !important;
+    border-radius: 7px !important;
+    border: none !important;
+    transition: all var(--transition) !important;
+    color: rgba(212, 175, 55, 0.55) !important;
+}
+
+div[class*="st-key-voice_mode_control"] [role="radiogroup"] > button[aria-checked="true"] {
+    background: linear-gradient(135deg, #C9A227, #F5D06C) !important;
+    color: #0A0800 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 6px var(--gold-glow) !important;
 }
 
 div[class*="st-key-voice_mode_control"] [role="radiogroup"] > button p {
@@ -46,224 +358,14 @@ div[class*="st-key-voice_mode_control"] [role="radiogroup"] > button p {
     white-space: nowrap !important;
 }
 
-/* 顶部品牌区将项目名和弱化版本号放在同一基线。项目名称仍是页面唯一的 h1；
-   版本号本身作为项目链接，避免增加独立图标而干扰标题的视觉层级。 */
-.mpt-brand {
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    color: inherit;
-    line-height: 1.15;
-}
-
-/* Streamlit 会在自定义 h1 内增加一层文本容器，实际的行内布局需要作用在
-   这层容器上，才能稳定控制项目名和版本号的间距。 */
-.mpt-brand > span:first-child {
-    display: flex;
-    align-items: baseline;
-    gap: 0.65rem;
-    min-width: 0;
-}
-
-.mpt-brand__name {
-    min-width: 0;
-    font-size: 2.75rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    white-space: nowrap;
-}
-
-.mpt-brand__version {
-    flex: 0 0 auto;
-    font-size: 1rem;
-    font-weight: 600;
-    color: inherit !important;
-    opacity: 0.72;
-    text-decoration: none !important;
-    white-space: nowrap;
-}
-
-.mpt-brand__version:hover {
-    color: inherit !important;
-    opacity: 1;
-    text-decoration: underline !important;
-    text-underline-offset: 0.18em;
-}
-
-.mpt-brand__version:focus-visible {
-    outline: 2px solid rgba(255, 75, 75, 0.48);
-    outline-offset: 2px;
-}
-
-/* 新版本提醒只在确有正式版本更新时出现。使用文字链接而不是按钮或横幅，
-   让它保持可发现性，同时不抢占项目标题和主要操作入口的视觉层级。 */
-.mpt-brand__update {
-    flex: 0 0 auto;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #d94848 !important;
-    text-decoration: none !important;
-    white-space: nowrap;
-}
-
-.mpt-brand__update:hover {
-    text-decoration: underline !important;
-    text-underline-offset: 0.18em;
-}
-
-.mpt-brand__update:focus-visible {
-    outline: 2px solid rgba(255, 75, 75, 0.48);
-    outline-offset: 2px;
-}
-
-@media (prefers-color-scheme: dark) {
-    .mpt-brand__update {
-        color: #ff6b6b !important;
-    }
-}
-
-/* Streamlit 会自动给 h1 追加一个标题锚点。品牌区已有版本号项目链接，额外的
-   标题锚点没有实际价值，因此只在这个标题内隐藏，避免窄屏出现多余图标。 */
-.mpt-brand > [data-testid="stHeaderActionElements"] {
-    display: none !important;
-}
-
-/* 顶部任务入口由 st.fragment 定时刷新，Streamlit 会为 Fragment 自动生成一个
-   占满整行的 LayoutWrapper。这里只收缩该包装层，保证右侧操作区按内容紧凑排列。 */
+/* ---------- Top bar layout ---------- */
 .st-key-top_bar_actions
     > div[data-testid="stLayoutWrapper"]:first-child {
     flex: 0 0 auto !important;
     width: fit-content !important;
 }
 
-@media (max-width: 700px) {
-    .mpt-brand > span:first-child {
-        gap: 0.45rem;
-    }
-
-    .mpt-brand__name {
-        font-size: 1.875rem;
-    }
-
-    .mpt-brand__version {
-        font-size: 0.875rem;
-    }
-
-    .mpt-brand__update {
-        font-size: 0.75rem;
-    }
-
-}
-
-@media (max-width: 480px) {
-    .mpt-brand > span:first-child {
-        gap: 0.35rem;
-    }
-
-    .mpt-brand__name {
-        font-size: 1.5rem;
-    }
-
-    .mpt-brand__version {
-        font-size: 0.75rem;
-    }
-
-    .mpt-brand__update {
-        font-size: 0.6875rem;
-    }
-
-}
-
-/* 高级设置属于内容展开入口，不是执行操作。保留 Streamlit 原生 expander 的
-   语义和键盘交互，只在带 advanced_settings_ key 的局部容器内移除卡片边框，
-   避免与紧邻的 AI 生成按钮形成两个连续大按钮的视觉干扰。 */
-div[class*="st-key-advanced_settings_"] details {
-    border: 0 !important;
-    border-radius: 4px !important;
-    background: transparent !important;
-}
-
-div[class*="st-key-advanced_settings_"] details > summary {
-    min-height: 2.25rem !important;
-    padding: 0.35rem 0.25rem !important;
-    color: inherit !important;
-    opacity: 0.78;
-}
-
-div[class*="st-key-advanced_settings_"] details > summary:hover {
-    opacity: 1;
-    background: color-mix(
-        in srgb,
-        currentColor 6%,
-        transparent
-    ) !important;
-}
-
-/* 展开后让标题和内容共享同一背景，视觉上形成连续区域；折叠状态仍保持原有的
-   透明轻量入口，不额外占用页面层级。 */
-div[class*="st-key-advanced_settings_"] details[open] > summary {
-    border-radius: 4px 4px 0 0 !important;
-    opacity: 1;
-    background: color-mix(
-        in srgb,
-        currentColor 5%,
-        transparent
-    ) !important;
-}
-
-div[class*="st-key-advanced_settings_"] details > summary:focus {
-    background: color-mix(
-        in srgb,
-        currentColor 5%,
-        transparent
-    ) !important;
-    box-shadow: none !important;
-    outline: none !important;
-}
-
-/* 键盘操作使用标题下划线作为焦点反馈，不再绘制任何外框，确保展开区域在视觉
-   上完全无边框，同时仍能让键盘用户识别当前焦点。 */
-div[class*="st-key-advanced_settings_"] details > summary:focus-visible {
-    box-shadow: none !important;
-}
-
-div[class*="st-key-advanced_settings_"] details > summary:focus-visible p {
-    text-decoration: underline !important;
-    text-underline-offset: 0.18em;
-}
-
-div[class*="st-key-advanced_settings_"] details > summary p {
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-}
-
-/* 内容区与展开标题无缝衔接，不使用任何边框，仅通过统一背景和内边距表达
-   控件从属于高级设置，避免出现嵌套卡片或割裂的两段式结构。 */
-div[class*="st-key-advanced_settings_"] div[data-testid="stExpanderDetails"] {
-    margin-top: 0 !important;
-    padding: 0.75rem 0.75rem 0.85rem 1rem !important;
-    border: 0 !important;
-    border-radius: 0 0 4px 4px !important;
-    background: color-mix(
-        in srgb,
-        currentColor 5%,
-        transparent
-    ) !important;
-}
-
-/* 任务管理 popover 需要固定宽度，避免内容从空状态、列表状态切换时
-   反复改变宽度造成页面抖动。宽度仍保留视口约束，兼容窄屏。 */
-div[data-testid="stPopoverBody"] {
-    width: min(860px, calc(100vw - 48px)) !important;
-    max-width: min(860px, calc(100vw - 48px)) !important;
-}
-
-div[data-testid="stPopoverBody"] div[data-testid="stVerticalBlock"] {
-    width: 100% !important;
-}
-
-/* 任务管理列表保留 Streamlit 原生布局，只做轻量压缩，避免每一行过高。
-   通过 task_row_ key 限定作用范围，避免影响其它配置面板的 container。 */
+/* ---------- Task rows ---------- */
 div[class*="st-key-task_row_"] {
     margin-bottom: 0.18rem !important;
 }
@@ -301,8 +403,6 @@ div[class*="st-key-task_row_"] button[kind="secondary"] {
     padding: 0.1rem 0.3rem !important;
 }
 
-/* 按钮文字视觉隐藏后，Streamlit 仍会保留图标与文字之间的默认间距，导致
-   单独图标向左偏移。清除该间距并让内容层占满按钮，确保操作图标严格居中。 */
 div[class*="st-key-task_row_"]
     button[kind="secondary"]
     span[data-has-shortcut] {
@@ -311,8 +411,6 @@ div[class*="st-key-task_row_"]
     justify-content: center !important;
 }
 
-/* 行内操作保留可访问的按钮名称，但视觉上只显示图标。使用屏幕阅读器可见的
-   隐藏方式，而不是 display:none，确保每个操作仍能被正确朗读。 */
 div[class*="st-key-task_row_"] button[kind="secondary"] p {
     position: absolute !important;
     width: 1px !important;
@@ -325,16 +423,44 @@ div[class*="st-key-task_row_"] button[kind="secondary"] p {
     white-space: nowrap !important;
 }
 
+label[data-testid="stWidgetLabel"] > div {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    margin-left: 0.35rem !important;
+}
 
-/* 中等宽度下将四个设置面板调整为 2×2，避免每列过窄导致标签和按钮频繁换行。 */
+/* ---------- Popover ---------- */
+div[data-testid="stPopoverBody"] {
+    width: min(860px, calc(100vw - 48px)) !important;
+    max-width: min(860px, calc(100vw - 48px)) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border: 1px solid var(--glass-border) !important;
+}
+
+div[data-testid="stPopoverBody"] div[data-testid="stVerticalBlock"] {
+    width: 100% !important;
+}
+
+/* ---------- Dividers ---------- */
+hr {
+    border-color: rgba(212, 175, 55, 0.15) !important;
+}
+
+/* ---------- Scrollbars ---------- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(10, 8, 0, 0.3); }
+::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.35);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.6); }
+
+/* ---------- Responsive ---------- */
 @media (min-width: 701px) and (max-width: 1100px) {
-    .mpt-brand__name {
-        font-size: 2.25rem;
-    }
-
-    .mpt-brand__version {
-        font-size: 0.875rem;
-    }
+    .bsv-brand__name { font-size: 2.25rem; }
+    .bsv-brand__version { font-size: 0.875rem; }
 
     div[class*="st-key-main_settings_grid"]
         > div[data-testid="stLayoutWrapper"]
@@ -353,11 +479,13 @@ div[class*="st-key-task_row_"] button[kind="secondary"] p {
     }
 }
 
-/* 移动端隐藏桌面表头，并将任务行重排为“主题 + 元信息 + 操作”紧凑结构。 */
 @media (max-width: 700px) {
-    div[class*="st-key-task_table_header_"] {
-        display: none !important;
-    }
+    .bsv-brand > span:first-child { gap: 0.45rem; }
+    .bsv-brand__name { font-size: 1.875rem; }
+    .bsv-brand__version { font-size: 0.875rem; }
+    .bsv-brand__update { font-size: 0.75rem; }
+
+    div[class*="st-key-task_table_header_"] { display: none !important; }
 
     div[class*="st-key-task_row_"]
         > div[data-testid="stLayoutWrapper"]
@@ -379,43 +507,29 @@ div[class*="st-key-task_row_"] button[kind="secondary"] p {
     div[class*="st-key-task_row_"]
         > div[data-testid="stLayoutWrapper"]
         > div[data-testid="stHorizontalBlock"]
-        > div[data-testid="stColumn"]:nth-child(1) {
-        grid-column: 1;
-        grid-row: 2;
-    }
+        > div[data-testid="stColumn"]:nth-child(1) { grid-column: 1; grid-row: 2; }
 
     div[class*="st-key-task_row_"]
         > div[data-testid="stLayoutWrapper"]
         > div[data-testid="stHorizontalBlock"]
-        > div[data-testid="stColumn"]:nth-child(2) {
-        grid-column: 2;
-        grid-row: 2;
-    }
+        > div[data-testid="stColumn"]:nth-child(2) { grid-column: 2; grid-row: 2; }
 
     div[class*="st-key-task_row_"]
         > div[data-testid="stLayoutWrapper"]
         > div[data-testid="stHorizontalBlock"]
         > div[data-testid="stColumn"]:nth-child(3) {
-        grid-column: 1 / 4;
-        grid-row: 1;
-        font-weight: 600;
+        grid-column: 1 / 4; grid-row: 1; font-weight: 600;
     }
 
     div[class*="st-key-task_row_"]
         > div[data-testid="stLayoutWrapper"]
         > div[data-testid="stHorizontalBlock"]
-        > div[data-testid="stColumn"]:nth-child(4) {
-        grid-column: 3;
-        grid-row: 2;
-    }
+        > div[data-testid="stColumn"]:nth-child(4) { grid-column: 3; grid-row: 2; }
 
     div[class*="st-key-task_row_"]
         > div[data-testid="stLayoutWrapper"]
         > div[data-testid="stHorizontalBlock"]
-        > div[data-testid="stColumn"]:nth-child(5) {
-        grid-column: 4;
-        grid-row: 1 / 3;
-    }
+        > div[data-testid="stColumn"]:nth-child(5) { grid-column: 4; grid-row: 1 / 3; }
 
     div[class*="st-key-task_row_"]
         > div[data-testid="stLayoutWrapper"]
@@ -436,4 +550,11 @@ div[class*="st-key-task_row_"] button[kind="secondary"] p {
         width: auto !important;
         min-width: 1.75rem !important;
     }
+}
+
+@media (max-width: 480px) {
+    .bsv-brand > span:first-child { gap: 0.35rem; }
+    .bsv-brand__name { font-size: 1.5rem; }
+    .bsv-brand__version { font-size: 0.75rem; }
+    .bsv-brand__update { font-size: 0.6875rem; }
 }
