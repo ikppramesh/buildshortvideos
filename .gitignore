@@ -12,6 +12,7 @@
 /*/__pycache__/*
 .vscode
 /**/.streamlit/secrets.toml
+/webui/.streamlit/
 __pycache__
 logs/
 

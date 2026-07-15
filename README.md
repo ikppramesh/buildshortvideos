@@ -288,6 +288,54 @@ listen_port       = 8080
 
 ---
 
+## 🌐 Deploy Online (Streamlit Community Cloud)
+
+Deploy BuildshortVideos for free so you can create and download videos from any device — including your mobile.
+
+### Step 1 — Push your repo to GitHub
+
+Make sure your code is pushed to `https://github.com/ikppramesh/buildshortvideos`.
+
+### Step 2 — Sign up for Streamlit Community Cloud
+
+Go to **[share.streamlit.io](https://share.streamlit.io)** and sign in with your GitHub account (ikppramesh).
+
+### Step 3 — Create a new app
+
+1. Click **"New app"**
+2. Select repository: `ikppramesh/buildshortvideos`
+3. Branch: `main`
+4. Main file path: `webui/Main.py`
+5. Click **"Deploy"**
+
+### Step 4 — Add your API keys as Secrets
+
+In the app dashboard, click **"Settings" → "Secrets"** and paste:
+
+```toml
+PEXELS_API_KEY = "your_pexels_api_key_here"
+GROQ_API_KEY   = "your_groq_api_key_here"
+LLM_PROVIDER   = "groq"
+```
+
+> **Never put API keys in code or `config.toml` — always use the Secrets manager.**
+
+### Step 5 — Access on mobile
+
+Once deployed, Streamlit gives you a public URL like:
+`https://ikppramesh-buildshortvideos-webui-main-xxxxxx.streamlit.app`
+
+Open that URL on your phone browser. Create a video, then tap **Download** to save the `.mp4` directly to your device.
+
+### Notes
+
+- First cold-start after inactivity takes ~60 seconds (free tier sleeps idle apps)
+- Video generation requires active internet; large videos may take 2–5 minutes
+- Free tier has 1 GB RAM — keep video count ≤ 3 per generation for reliability
+- The `packages.txt` file in the repo automatically installs `ffmpeg` on the cloud server
+
+---
+
 ## 🐳 Docker (Optional)
 
 ```bash

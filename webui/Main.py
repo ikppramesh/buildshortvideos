@@ -25,6 +25,16 @@ root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 
+# Inject Streamlit Cloud secrets into os.environ before config loads.
+# On local runs this is a no-op; on Streamlit Cloud it exposes the
+# secrets manager values to the same env-var injection path used by .env.
+try:
+    for _secret_key, _secret_val in (st.secrets or {}).items():
+        if isinstance(_secret_val, str):
+            os.environ.setdefault(_secret_key.upper(), _secret_val)
+except Exception:
+    pass
+
 from app.config import config
 from app.models import const
 from app.models.llm_provider import (
